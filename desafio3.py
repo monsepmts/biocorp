@@ -23,39 +23,57 @@ while a!=-1:
     """Requerimiento1: Archivo entrada y salida"""
     if a==1:     ### Aquí intento borrar las partes del archivo de I a F ###
         data=open(input("Ingrese el nombre del archivo: "))
-        lineas=data.readlines()
-        for j in range(lineas):
-            if j=="I":
-                b=data.index(j)
-                if j=="F":
-                    c=data.index(j)
-                    del data[b:(c+1)]
+        nombre = data.readlines(1)
+        lineas=data.read()
+
+        i=0
+        while (i<len(lineas)):
+            if lineas[i]=="I":
+                while lineas[i]!="F":
+                    i=i+1
+
             else:
-                archivo.append(j)
+                archivo.append(lineas[i])
+            i = i+1
+            print(archivo)
                     
-        for j in range(archivo): ### Aquí intento cambiar las T por U ###
-            if j=="T":
-                d=archivo.index(j)
-                archivo[d]="U"
-                
-        start=['A','U','G'] ### Aquí comienzo a contar del AUG ###
+        for j in range (len(archivo)): ### Aquí intento cambiar las T por U ###
+            if archivo[j] == "T":
+                archivo[j]="U"
+        print(archivo)                
+        archivo ="".join(archivo)
+        print(archivo)
+        
+        start=['AUG'] ### Aquí comienzo a contar del AUG ###
+        stop =["UAG","UGA","UAA"]
         larg_archivo=len(archivo)
         i=0
         while (i<larg_archivo-2):
-            if start[0]==archivo[i] and start[1]==archivo[i+1] and start[2]==archivo[i+2]:
+            if start[0]==archivo[i:i+3]:
                 i=i+3
-                for i in range(archivo):
-                    for j in codigo:
-                        if i+(i+1)+(i+2)==j: ### Aquí cambia de a tres letras por una ###
-                            c=dict.get(j)
-                            nuevo_archivo.append(c)
-                            i=i+3
-                            if c=="STOP":
-                                del archivo[i-3:len(archivo)]
-                            
-            else:
-                i=i+1
 
+                while (i+3)<=len(archivo):
+
+                    if stop[0] == archivo[i:i+3] or  stop[1] == archivo[i:i+3] or  stop[2] == archivo[i:i+3]:
+                        i = i+larg_archivo     
+                    else:
+                        nuevo_archivo.append(archivo[i:i+3])
+                        i=i+3
+                        print(nuevo_archivo)
+
+
+            i=i+1
+        ultima = []
+        largo = len(nuevo_archivo)
+        i = 0
+        while i < largo:
+            if nuevo_archivo[i] in codigo:
+                encontrar = codigo.get(nuevo_archivo[i])
+                i+=1
+                ultima.append(encontrar)
+
+        fin = "".join(ultima)
+        print(fin)
     """Requerimiento2: Número de nucleotidos"""
     if a==2:
         contadorA=0
